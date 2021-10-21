@@ -1,11 +1,42 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
-import React from "react";
+import React, { useEffect, useState } from "react";
 import 'font-awesome/css/font-awesome.min.css';
-import Card from "./containers/Card";
+import Card from "../components/card";
+import axios from "axios";
+
+export interface CardData {
+  user: {
+    pic: string,
+    name: string,
+  },
+  item: {
+    image: string,
+    title: string,
+    description: string,
+    isFavourite: boolean,
+    likes: number,
+    price: number,
+    comments: number,
+    tags: string[]
+  }
+}
 
 const Home: NextPage = () => {
+  const [data, setData] = useState<CardData[]>([])
+
+  useEffect(() => {
+    axios.get('http://localhost:3000/api/items', {})
+      .then(response => {
+        // @ts-ignore
+        setData(response.data)
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }, [])
+
   return (
     <div className={styles.container}>
       <Head>
@@ -15,47 +46,8 @@ const Home: NextPage = () => {
       </Head>
 
       <main className={styles.main}>
-        <Card/>
-        <Card/>
-        <Card/>
+        {data.map((el, index) => <Card key={index} cardData={el} />)}
       </main>
-
-      <footer className={styles.footer} style={{
-        position: "fixed",
-        left: "0",
-        bottom: "0",
-        width: "100%",
-        backgroundColor: "#FC619C",
-        color: "white",
-        textAlign: "center"
-      }}>
-        <button style={{
-          background: "transparent",
-          border: "none",
-          color: "white",
-          width: "50%",
-          textAlign: "center",
-          minHeight: "50px"
-        }}>
-          <i style={{
-            fontSize: "25px",
-            padding: "18px"
-          }} className="fa fa-home" aria-hidden="true"/>
-        </button>
-        <button style={{
-          background: "transparent",
-          border: "none",
-          color: "white",
-          width: "50%",
-          textAlign: "center",
-          minHeight: "50px"
-        }}>
-          <i style={{
-            fontSize: "25px",
-            padding: "18px"
-          }} className="fa fa-heart" aria-hidden="true" />
-        </button>
-      </footer>
     </div>
   )
 }
