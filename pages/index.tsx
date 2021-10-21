@@ -7,6 +7,7 @@ import Card from "../components/card";
 import axios from "axios";
 
 export interface CardData {
+  _id: number,
   user: {
     pic: string,
     name: string,

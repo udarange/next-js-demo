@@ -1,12 +1,8 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-import type { NextApiRequest, NextApiResponse } from 'next'
+import { CardData } from "../pages";
 
-type Data = {
-  // data: object
-}
-
-const data = [
+const dummyData: CardData[] = [
   {
+    _id: 1,
     user: {
       pic: "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
       name: "tracymcgrady",
@@ -23,6 +19,7 @@ const data = [
     }
   },
   {
+    _id: 2,
     user: {
       pic: "https://www.whatsappprofiledpimages.com/wp-content/uploads/2021/08/Profile-Photo-Wallpaper.jpg",
       name: "amaliasaedx",
@@ -39,6 +36,7 @@ const data = [
     }
   },
   {
+    _id: 3,
     user: {
       pic: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
       name: "lsiofef_djwow__",
@@ -55,6 +53,7 @@ const data = [
     }
   },
   {
+    _id: 4,
     user: {
       pic: "https://images.pexels.com/photos/2078265/pexels-photo-2078265.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
       name: "iuewew_2",
@@ -71,6 +70,7 @@ const data = [
     }
   },
   {
+    _id: 5,
     user: {
       pic: "https://backlightblog.com/images/2020/10/instagram-profile-picture-header-1160x760.jpg",
       name: "sada_dnjne",
@@ -88,9 +88,4 @@ const data = [
   }
 ]
 
-export default function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<Data>
-) {
-  res.status(200).json(data)
-}
+export default dummyData
