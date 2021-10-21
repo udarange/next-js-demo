@@ -80,8 +80,14 @@ const CardBodyContainer = styled.div`
     object-fit: cover;
   }
 
+  .fa-heart {
+    color: orange;
+    cursor: pointer;
+  }
+
   .fa-heart-o {
-    color: ${({ isFavourite }: { isFavourite: boolean }) => isFavourite ? "orange" : "white"};
+    color: white;
+    cursor: pointer;
   }
 `;
 
@@ -132,14 +138,17 @@ export default function Card({ cardData }: { cardData: CardData }) {
       <p>{currentCardData.user.name}</p>
     </CardHeaderContainer>
 
-    <CardBodyContainer isFavourite={currentCardData.item.isFavourite}>
+    <CardBodyContainer>
       <img src={currentCardData.item.image} alt={"cover-image"} />
       <CoverImageOverlay>
         <div>
           <p className="title">{currentCardData.item.title}</p>
           <p className="price">{`AED ${currentCardData.item.price}`}</p>
         </div>
-        <i className="fa fa-heart-o" aria-hidden="true" onClick={() => toggleFavourite()} />
+        <i className={currentCardData.item.isFavourite ? "fa fa-heart":"fa fa-heart-o"}
+           aria-hidden="true"
+           onClick={() => toggleFavourite()}
+        />
       </CoverImageOverlay>
     </CardBodyContainer>
 
