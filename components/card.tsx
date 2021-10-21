@@ -70,6 +70,7 @@ const CardHeaderContainer = styled.div`
 
 const CardBodyContainer = styled.div`
   width: 100%;
+  max-width: 550px;
   display: flex;
   flex-direction: column;
   position: relative;

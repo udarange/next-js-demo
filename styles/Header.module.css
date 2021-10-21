@@ -1,0 +1,27 @@
+
+.header {
+  display: block;
+  width: 100%;
+}
+
+.header button {
+  background: transparent;
+  border: 2px solid #FC619C;
+  color: #FC619C;
+  width: 200px;
+  text-align: center;
+  min-height: 50px;
+  font-size: 20px;
+  margin: 5px 0 5px 5px;
+}
+
+.header button i {
+  font-size: 25px;
+  padding: 18px;
+}
+
+@media (max-width: 600px) {
+  .header {
+    display: none;
+  }
+}
