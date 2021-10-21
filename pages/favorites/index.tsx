@@ -42,7 +42,7 @@ export default function Favorites() {
 
       <div className={styles.main}>
         {data.map((el, index) => <div className={styles.bucket} key={index}>
-          <div >
+          <div>
             <p>{el.item.title}</p>
             <img className={styles.img} src={el.item.image} alt={"cover-image"} />
           </div>

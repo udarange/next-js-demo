@@ -145,7 +145,7 @@ export default function Card({ cardData }: { cardData: CardData }) {
           <p className="title">{currentCardData.item.title}</p>
           <p className="price">{`AED ${currentCardData.item.price}`}</p>
         </div>
-        <i className={currentCardData.item.isFavourite ? "fa fa-heart":"fa fa-heart-o"}
+        <i className={currentCardData.item.isFavourite ? "fa fa-heart" : "fa fa-heart-o"}
            aria-hidden="true"
            onClick={() => toggleFavourite()}
         />
