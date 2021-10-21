@@ -10,9 +10,9 @@ export default function handler(
     const { itemId } = req.query
     const find = dummyData.find(el => el._id === parseInt(<string>itemId));
 
-    if (find && req.body?.isFavourite) {
-      find.item.isFavourite = req.body.isFavourite
-      res.status(204).end()
+    if (find) {
+      find.item.isFavourite = !!req.body.isFavourite
+      res.status(200).json(find)
     } else {
       res.status(404).end()
     }

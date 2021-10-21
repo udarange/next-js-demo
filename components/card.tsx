@@ -1,123 +1,158 @@
-import React from "react";
+import React, { useState } from "react";
 import { CardData } from "../pages";
+import styled from "styled-components";
+import axios from "axios";
+
+const CardContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid lightgray;
+  padding-bottom: 20px;
+  
+  .likes {
+    color: blue;
+    margin: 10px 15px;
+    font-size: 13px;
+    font-weight: 500;
+  }
+  
+  .fa-heart {
+    padding-right: 5px;
+    font-size: 15px;
+  }
+  
+  .description {
+    color: gray;
+    margin: 0px 15px;
+    font-size: 13px;
+  }
+  
+  .tagline {
+    max-width: 100%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    margin: 5px 15px;
+    color: blue;
+    font-size: 13px;
+  }
+  
+  .comments {
+    background: transparent;
+    border: none;
+    text-align: left;
+    margin: 5px 10px;
+    width: fit-content;
+    color: lightgray;
+  }
+`;
+
+const CardHeaderContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  padding: 10px 20px 6px;
+  
+  img {
+    height: 40px;
+    width: 40px;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+  
+  p {
+    font-size: 13px;
+    font-weight: bold;
+    color: blue;
+    text-align: left;
+    padding-left: 15px;
+  }
+`;
+
+const CardBodyContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  
+  img {
+    height: 280px;
+    object-fit: cover;
+  }
+
+  .fa-heart-o {
+    color: ${({ isFavourite }: { isFavourite: boolean }) => isFavourite ? "orange" : "white"};
+  }
+`;
+
+const CoverImageOverlay = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+  background: linear-gradient(rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.4) 70%);
+  
+  .title {
+    font-size: 15px;
+    color: white;
+    margin: 0px;
+  }
+  
+  .price {
+    font-size: 15px;
+    font-weight: bold;
+    color: white;
+    margin: 0px;
+  }
+`;
 
 export default function Card({ cardData }: { cardData: CardData }) {
+  const [currentCardData, setCurrentCardData] = useState(cardData)
 
-  return <div style={{
-    display: "flex",
-    flexDirection: "column",
-    borderBottom: "1px solid lightgray",
-    paddingBottom: "20px"
-  }}>
-    <div style={{
-      display: "flex",
-      flexDirection: "row",
-      padding: "10px 20px 6px"
-    }}>
-      <img
-        src={cardData.user.pic}
-        alt={"profile-pic"}
-        style={{
-          height: "40px",
-          width: "40px",
-          objectFit: "cover",
-          borderRadius: "50%"
-        }}
-      />
-      <p style={{
-        fontSize: "13px",
-        fontWeight: "bold",
-        color: "blue",
-        textAlign: "left",
-        paddingLeft: "15px"
-      }}>
-        {cardData.user.name}
-      </p>
-    </div>
+  function toggleFavourite() {
+    const data = { isFavourite: !currentCardData.item.isFavourite };
 
-    <div style={{
-      width: "100%",
-      display: "flex",
-      flexDirection: "column",
-      position: "relative",
-    }}>
-      <img
-        src={cardData.item.image}
-        alt={"cover-image"}
-        style={{
-          height: "280px",
-          objectFit: "cover"
-        }}
-      />
-      <div style={{
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center",
-        padding: "10px 15px",
-        position: "absolute",
-        bottom: "0px",
-        width: "100%",
-        background: "linear-gradient(rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.4) 70%)"
-      }}>
+    axios.post(`http://localhost:3000/api/items/${currentCardData._id}`, data)
+      .then(response => {
+        // @ts-ignore
+        setCurrentCardData(response.data)
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
+  return <CardContainer>
+    <CardHeaderContainer>
+      <img src={currentCardData.user.pic} alt={"profile-pic"} />
+      <p>{currentCardData.user.name}</p>
+    </CardHeaderContainer>
+
+    <CardBodyContainer isFavourite={currentCardData.item.isFavourite}>
+      <img src={currentCardData.item.image} alt={"cover-image"} />
+      <CoverImageOverlay>
         <div>
-          <p style={{
-            fontSize: "15px",
-            color: "white",
-            margin: "0"
-          }}>{cardData.item.title}</p>
-          <p style={{
-            fontSize: "15px",
-            fontWeight: "bold",
-            color: "white",
-            margin: "0"
-          }}>{`AED ${cardData.item.price}`}</p>
+          <p className="title">{currentCardData.item.title}</p>
+          <p className="price">{`AED ${currentCardData.item.price}`}</p>
         </div>
-        <i style={{ color: cardData.item.isFavourite ? "orange" : "white", fontSize: "24px" }} className="fa fa-heart-o"
-           aria-hidden="true" />
-      </div>
-    </div>
+        <i className="fa fa-heart-o" aria-hidden="true" onClick={() => toggleFavourite()} />
+      </CoverImageOverlay>
+    </CardBodyContainer>
 
-    <p style={{
-      color: "blue",
-      margin: "10px 15px",
-      fontSize: "13px",
-      fontWeight: 500
-    }}>
-      <i style={{ paddingRight: 5, fontSize: 15 }} className="fa fa-heart" aria-hidden="true" />
-      {`${cardData.item.likes} likes`}
+    <p className="likes">
+      <i className="fa fa-heart" aria-hidden="true" />
+      {`${currentCardData.item.likes} likes`}
     </p>
-    <p style={{
-      color: "gray",
-      margin: "0px 15px",
-      fontSize: "13px",
-    }}>
-      {cardData.item.description}
+    <p className="description">{currentCardData.item.description}</p>
+    <p className="tagline">
+      {currentCardData.item.tags.join(" ")}
     </p>
-    <p style={{
-      maxWidth: "100%",
-      textOverflow: "ellipsis",
-      overflow: "hidden",
-      whiteSpace: "nowrap",
-      margin: "5px 15px",
-      color: "blue",
-      fontSize: "13px"
-    }}>
-      {cardData.item.tags.join(" ")}
-    </p>
-    <button
-      type={"button"}
-      style={{
-        background: "transparent",
-        border: "none",
-        textAlign: "left",
-        margin: "5px 10px",
-        width: "fit-content",
-        color: "lightgray"
-      }}
-    >
-      {`View ${cardData.item.comments} comments`}
+    <button type={"button"} className="comments">
+      {`View ${currentCardData.item.comments} comments`}
     </button>
 
-  </div>
+  </CardContainer>
 }
