@@ -29,20 +29,20 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     axios.get('http://localhost:3000/api/items', {})
-      .then(response => {
-        // @ts-ignore
-        setData(response.data)
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    .then(response => {
+      // @ts-ignore
+      setData(response.data)
+    })
+    .catch(error => {
+      console.log(error);
+    });
   }, [])
 
   return (
     <div className={styles.container}>
       <Head>
-        <title>Noon Shop</title>
-        <meta name="description" content="noon shop" />
+        <title>Shop</title>
+        <meta name="description" content="shop" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 

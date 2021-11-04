@@ -11,32 +11,32 @@ export default function Favorites() {
     const requestBody = { isFavourite: false };
 
     axios.post(`http://localhost:3000/api/items/${id}`, requestBody)
-      .then(response => {
-        // console.log(response.data)
-        setData(data.filter(el => el._id !== id))
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    .then(response => {
+      // console.log(response.data)
+      setData(data.filter(el => el._id !== id))
+    })
+    .catch(error => {
+      console.log(error);
+    });
 
   }
 
   useEffect(() => {
     axios.get('http://localhost:3000/api/items/favourites', {})
-      .then(response => {
-        // @ts-ignore
-        setData(response.data)
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    .then(response => {
+      // @ts-ignore
+      setData(response.data)
+    })
+    .catch(error => {
+      console.log(error);
+    });
   }, [])
 
   return (
     <div className={styles.container}>
       <Head>
-        <title>Favourite | Noon Shop</title>
-        <meta name="description" content="my favourite from noon shop" />
+        <title>Favourite | Shop</title>
+        <meta name="description" content="my favourite from shop" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 

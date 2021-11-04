@@ -123,13 +123,13 @@ export default function Card({ cardData }: { cardData: CardData }) {
     const data = { isFavourite: !currentCardData.item.isFavourite };
 
     axios.post(`http://localhost:3000/api/items/${currentCardData._id}`, data)
-      .then(response => {
-        // @ts-ignore
-        setCurrentCardData(response.data)
-      })
-      .catch(error => {
-        console.log(error);
-      });
+    .then(response => {
+      // @ts-ignore
+      setCurrentCardData(response.data)
+    })
+    .catch(error => {
+      console.log(error);
+    });
   }
 
   return <CardContainer>
